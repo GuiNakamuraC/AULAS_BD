@@ -1,0 +1,88 @@
+CREATE TABLE proprietario (
+id_prop int PRIMARY KEY AUTO_INCREMENT,
+nome varchar(255) NOT NULL,
+data_nasc date,
+CPF varchar(14) UNIQUE NOT NULL,
+email varchar(255) UNIQUE NOT NULL,
+telefone varchar(20),
+pix varchar(20) NOT NULL,
+agencia varchar(50) NOT NULL,
+banco varchar(50) NOT NULL,
+conta varchar(50) NOT NULL,
+quant_imovel int
+)
+
+CREATE TABLE imovel (
+id_imovel int PRIMARY KEY AUTO_INCREMENT,
+quant_banheiro int,
+quant_quarto int,
+lavanderia bit,
+garagem bit,
+piscina bit,
+extra varchar(255),
+area decimal(4,2) NOT NULL,
+id_prop int,
+FOREIGN KEY(id_prop) REFERENCES proprietario (id_prop)
+)
+
+CREATE TABLE endereco (
+id_endereco int PRIMARY KEY AUTO_INCREMENT,
+num int NOT NULL,
+rua verchar(255) NOT NULL,
+complemento varchar(255),
+bairro varchar(255) NOT NULL,
+cidade varchar(255) NOT NULL,
+uf int(2) NOT NULL,
+CEP varchar(9),
+id_imovel int,
+FOREIGN KEY(id_imovel) REFERENCES imovel (id_imovel)
+)
+
+CREATE TABLE midias (
+id_midia int PRIMARY KEY AUTO_INCREMENT,
+midias_digitais varchar(255),
+id_imovel int,
+FOREIGN KEY(id_imovel) REFERENCES imovel (id_imovel)
+)
+
+CREATE TABLE corretor (
+id_corretor int PRIMARY KEY AUTO_INCREMENT,
+nome varchar(255) NOT NULL,
+data_nasc date,
+CPF varchar(14) UNIQUE NOT NULL,
+email varchar(255) UNIQUE NOT NULL,
+telefone varchar(20)
+)
+
+CREATE TABLE fiador (
+id_fiador int PRIMARY KEY AUTO_INCREMENT,
+nome varchar(255) NOT NULL,
+data_nasc date,
+CPF varchar(14) UNIQUE NOT NULL,
+email varchar(255) UNIQUE NOT NULL,
+telefone varchar(20)
+)
+
+CREATE TABLE inquilino (
+id_inquilino int PRIMARY KEY AUTO_INCREMENT,
+nome varchar(255) NOT NULL,
+data_nasc date,
+CPF varchar(14) UNIQUE NOT NULL,
+email varchar(255) UNIQUE NOT NULL,
+telefone varchar(255),
+id_fiador int,
+FOREIGN KEY(id_fiador) REFERENCES fiador (id_fiador)
+)
+
+CREATE TABLE aluguel (
+id_aluguel int PRIMARY KEY AUTO_INCREMENT,
+data_inicio date NOT NULL,
+data_fim int NOT NULL,
+valor decimal(4,2),
+id_inquilino int,
+id_imovel int,
+id_corretor int,
+FOREIGN KEY(id_inquilino) REFERENCES inquilino (id_inquilino),
+FOREIGN KEY(id_imovel) REFERENCES imovel (id_imovel),
+FOREIGN KEY(id_corretor) REFERENCES corretor (id_corretor)
+)
